@@ -224,7 +224,7 @@ class CartItem(models.Model):
         try:
             profile = user.get_profile()
             if profile.commission_rate:
-                return user.commission
+                return profile.commission_rate
             else:
                 return settings.DEFAULT_COMMISSION_RATE
         except ExtendedProfile.DoesNotExist, BillingAddress.DoesNotExist:
