@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block header %}
+{{ category.title }}
+{% endblock %}
+
+{% block content %}
+    {% for product in products %}
+        <p>
+            <a href="/product/{{ category.id }}/{{ product.id }}/">{{ product.title }}</a><br/>
+		    {# {% if images %} #}
+		        {% for image in images %}
+		            <img src="{{ image.display_image.url }}"/>
+		        {% endfor %}
+			{# {% endif %} #}
+            {% if user.is_authenticated %}
+                {% if user.commission %}
+                    <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ user.commission }}<br/>
+                {% else %}
+                    <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ default_commission }}<br/>
+                {% endif %}
+            {% endif %}
+            {% if product.stock > 0 %}
+                <strong>In Stock</strong><br/>
+            {% endif %}
+            {{ product.description|linebreaksbr }}
+        </p>
+    {% endfor %}
+{% endblock %}

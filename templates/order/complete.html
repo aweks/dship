@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Order Complete" %}{% endblock %}
+
+{% block header %}{% trans "Order Complete" %}{% endblock %}
+
+{% block content %}
+{% blocktrans %}
+    <p>
+        Thank you for your order. Below you will find a copy of your invoice.
+    </p>
+{% endblocktrans %}
+{# INSERT YOUR COMPANY ADDRESS HERE #}
+<p>
+    <strong>{% trans "Invoice Number: " %}</strong>{{ order.id }}
+</p>
+{% if user.get_profile.billing %}
+    <strong>{% trans "Billing Address:" %}</strong><br/>
+    <p>
+        {{ user.get_profile.billing.addressee }}<br/>
+        {{ user.get_profile.billing.address_one }}<br/>
+        {{ user.get_profile.billing.address_two }}<br/>
+        {{ user.get_profile.billing.city }}<br/>
+        {{ user.get_profile.billing.state }}<br/>
+        {{ user.get_profile.billing.post_code }}
+    </p>
+{% endif %}
+<table>
+    <tr>
+        <th>{% trans "Product:" %}</th>
+        <th>{% trans "Quantity:" %}</th>
+        <th>{% trans "Total:" %}</th>
+    </tr>
+    {% for item in orderitems %}
+        <tr>
+            <td>
+                {{ item.item.title }}
+            </td>
+            <td>
+                {{ item.quantity }}
+            </td>
+            <td>
+                {{ item.total }}
+            </td>
+        </tr>
+    {% endfor %}
+    <th></th>
+    <th>{% trans "Grand Total:" %}</th>
+        <td>
+            {{ order.total }}
+        </td>
+</table>
+{% endblock %}

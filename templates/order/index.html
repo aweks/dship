@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block header %}Checkout{% endblock %}
+
+{% block content %}
+{% blocktrans %}
+    <p>
+        Please make sure that the details shown below are correct and then complete
+        the order.
+    </p>
+{% endblocktrans %}
+{% if user.get_profile.billing %}
+    <strong>{% trans "Billing Address:" %}</strong><br/>
+    <p>
+        {{ user.get_profile.billing.addressee }}<br/>
+        {{ user.get_profile.billing.address_one }}<br/>
+        {{ user.get_profile.billing.address_two }}<br/>
+        {{ user.get_profile.billing.city }}<br/>
+        {{ user.get_profile.billing.state }}<br/>
+        {{ user.get_profile.billing.post_code }}
+    </p>
+    <p>
+    <a href="/shop/edit/billingaddress/{{user.id}}/">Edit Your Billing Address</a>
+    </p>
+{% endif %}
+<table>
+    <tr>
+        <th>{% trans "Product:" %}</th>
+        <th>{% trans "Shipping Address:" %}</th>
+        <th>{% trans "Quantity:" %}</th>
+        <th>{% trans "Price:" %}</th>
+        <th>{% trans "Commission:" %}</th>
+        <th>{% trans "Other Cost:" %}</th>
+        <th>{% trans "Total:" %}</th>
+    </tr>
+    {% for item in cartitems %}
+        <tr>
+            <td>
+                {{ item.item.title }}
+            </td>
+            <td>
+                {{ item.address.addressee }}<br/>
+                {{ item.address.address_one }}<br/>
+                {% if item.address.address_two %}
+                    {{ item.address.address_two }}<br/>
+                {% endif %}
+                {{ item.address.city }}<br/>
+                {{ item.address.state }}<br/>
+                {{ item.address.post_code }}<br/>
+                {% if item.address.email %}
+                    {{ item.address.email }}<br/>
+                {% endif %}
+            </td>
+            <td>
+                {{ item.quantity }}
+            </td>
+            <td>
+                {{ item.price }}
+            </td>
+            <td>
+                {% if user.is_authenticated and user.commission %}
+                    {{ user.commission }}
+                {% else %}
+                    {{ default_commission }}
+                {% endif %}
+            </td>
+            <td>
+                {{ item.other_cost }}
+            </td>
+            <td>
+                {{ item.total }}
+            </td>
+        </tr>
+    {% endfor %}
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th>{% trans "Grand Total:" %}</th>
+        <td>
+            {{ cart.total }}
+        </td>
+</table>
+<div class="correct-order">
+    <a href="/shop/cart/">{% trans "Correct Order" %}</a><br/>
+</div>
+
+<div id="complete_order">
+<div class="span-15">
+    <form action="/shop/order/" method="post">
+        <fieldset>
+            <legend>{% trans "Complete Order:" %}</legend>
+            {% if form.non_field_errors %}
+                <div class="error">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            {% for field in form %}
+                {% if field.errors %}
+                    <div class="error">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+                {{ field.label }}: {{ field }}<br/>
+            {% endfor %}
+            <div class="notice">
+                {% blocktrans %}
+                    Please confirm that you are happy with your order and
+                    accept our <a href="/terms/">terms and conditions</a>
+                    in full and wish to complete it by checking the box above
+                    and then clicking "Complete" below.
+                {% endblocktrans %}
+            </div>
+            {% csrf_token %}
+            <input type="submit" value="{% trans "Accept Terms and Complete Order" %}"/>
+        </fieldset>
+    </form>
+</div>
+</div>
+<div class="clear"></div>
+{# <div class="span-17 final"></div> #}
+{% endblock %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>
+            {% block title %}Dropshipping Site{% endblock %}
+        </title>
+
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/base.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/print.css" type="text/css" media="print"/>
+        <!--[if lt IE 8]>
+            <link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection"/>
+        <![endif]-->
+
+{% block css_includes %}
+{% endblock %}
+
+        {# <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> #}
+        {% comment %}<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>{% endcomment %}
+        {% comment %}<script type="text/javascript" src="/static/js/modernizr-1.6.min.js"></script>{% endcomment %}
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/main.js"></script>
+
+{% block js_includes %}
+{% endblock %}
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+				<h1><a href="/">Dropshipping Inc 2011</a></h1>
+                <h2>{% block header %}Default Site Title{% endblock %}</h2>
+            </div>
+            <div class="content">
+                {% block content %}
+				{% endblock %}
+            </div>
+        {% include "footer.html" %}
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,6 @@
+django
+south
+pil
+django-imagekit
+#hg+https://bitbucket.org/Nizumzen/az-registration#egg=registration
+#-e git://git.junkers.organic-worlds.com/alex-registration.git#egg=registration

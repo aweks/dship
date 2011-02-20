@@ -1,0 +1,8 @@
+{% load i18n %}{% blocktrans %}Hi,
+A new user has signed up at {{ site }}. Please activate their account at
+the URL below. If you do not activate their account they will be unable
+to use the site.{% endblocktrans %}
+
+http://{{ site }}{% url registration_activate activate_user_id=user_id %}
+
+{% blocktrans %}Thank you.{% endblocktrans %}

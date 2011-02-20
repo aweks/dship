@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Account Activation" %}{% endblock %}
+
+{% block header %}{% trans "Account Activation" %}{% endblock %}
+
+{% block content %}
+{% if account %}
+    <p>
+        {% trans "You have now activated this user's account." %}
+    </p>
+{% else %}
+<p>{% blocktrans %}Either your activation link was incorrect or you are not
+currently logged in as an administrator or superuser. In order to activate
+users accounts you <strong><em>must</em></strong> be logged in as an
+administrator or superuser.{% endblocktrans %}</p>
+{% endif %}
+
+{% endblock %}

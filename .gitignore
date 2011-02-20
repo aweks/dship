@@ -1,0 +1,17 @@
+*.pyc
+.#*
+#*#
+*~
+*.swp
+*.mo
+.ropeproject
+*.tmproj
+*_settings.py
+*.db
+.project
+.pydevproject
+.settings
+._*
+cli/*.txt
+media/photos/*
+deploy/var/*

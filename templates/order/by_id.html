@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Order Review" %}{% endblock %}
+
+{% block header %}{% trans "Order Review" %}{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>{% trans "Product:" %}</th>
+        <th>{% trans "Shipping Address:" %}</th>
+        <th>{% trans "Quantity:" %}</th>
+        <th>{% trans "Total:" %}</th>
+    </tr>
+    {% for item in orderitems %}
+        <tr>
+            <td>
+                {{ item.item.title }}
+            </td>
+            <td>
+                {{ item.address.addressee }}<br/>
+                {{ item.address.address_one }}<br/>
+                {% if item.address.address_two %}
+                    {{ item.address.address_two }}<br/>
+                {% endif %}
+                {{ item.address.city }}<br/>
+                {{ item.address.state }}<br/>
+                {{ item.address.post_code }}<br/>
+                {% if item.address.email %}
+                    {{ item.address.email }}<br/>
+                {% endif %}
+            </td>
+            <td>
+                {{ item.quantity }}
+            </td>
+            <td>
+                {{ item.total }}
+            </td>
+        </tr>
+    {% endfor %}
+    <th></th>
+    <th></th>
+    <th>{% trans "Grand Total:" %}</th>
+        <td>
+            {{ order.total }}
+        </td>
+</table>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block header %}{{ product.title }}{% endblock %}
+
+{% block content %}
+<p>
+    {% if user.is_authenticated %}
+        {% if user.commission %}
+            <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ user.commission }}<br/>
+        {% else %}
+            <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ default_commission }}<br/>
+        {% endif %}
+    {% endif %}
+    {% if product.stock > 0 %}
+        <strong>In Stock</strong><br/>
+    {% endif %}
+    
+    {% if images %}
+	<div id="main_image">
+        {% for image in images|slice:":1" %}
+            <a href="{{ image.original_image.url }}"><img src="{{ image.display_image.url }}"/></a>
+        {% endfor %}
+	</div>
+	{% endif %}
+	{% if images %}
+	<div id="thumbs">
+		{% for image in images|slice:"1:" %}
+            <a href="{{ image.original_image.url }}"><img src="{{ image.thumbnail_image.url }}"/></a>
+        {% endfor %}
+	</div>
+	{% if user.is_authenticated %}
+	<div id="download_images_link">
+		<a href="/product/download/images/{{ product.id }}/">{% trans "Download All Images in Zip File" %}</a>
+	</div>
+	{% endif %}
+    {% endif %}
+<div class="clear"></div>
+<div id="description">
+
+
+    {{ product.description|linebreaksbr }}
+</div>
+</p>
+{% if user.is_authenticated %}
+
+
+    <div class="add_to_cart">
+        <form action="/product/{{ category.id }}/{{ product.id }}/" method="post">
+            <fieldset>
+                <legend>{% trans "Add to cart:" %}</legend>
+                {% comment %}
+                    We check to see if there are any errors set, if there are we then
+                    show them using the blueprint CSS error style.
+                {% endcomment %}
+                {% if form.non_field_errors %}
+                    <div class="error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                {% for field in form %}
+                    {% if field.errors %}
+                        <div class="error">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                    <label>{{ field.label }}:</label> {{ field }}<br/>
+                {% endfor %}
+                {% csrf_token %}
+                <input type="submit" class="add_to_cart" value="{% trans "Add to cart" %}"/>
+            </fieldset>
+        </form>
+    </div>
+    {% else %}
+    <div class="product_last">
+        <p>
+            {% blocktrans %}
+                <div class="info">
+                    You must be <a href="/accounts/login/">logged in</a> to add
+                    products to the shopping cart.
+                </div>
+            {% endblocktrans %}
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

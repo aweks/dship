@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Product Categories{% endblock %}
+
+{% block header %}Product Categories{% endblock %}
+
+{% block content %}
+<p>
+{# Available product categories:<br/> #}
+<div id="categories">	
+    {% for category in categories %}
+        <a href="/product/{{ category.id }}/">{{ category.title }}</a><br/>
+        {{ category.description|linebreaksbr }}<br/>
+    {% endfor %}
+</div>
+</p>
+{% endblock %}

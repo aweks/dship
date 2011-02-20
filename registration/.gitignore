@@ -1,0 +1,7 @@
+.DS_Store
+*.swp
+*.pyc
+*_old.py
+templates/registration/*.swp
+templates/.DS_Store
+templates/registration/.DS_Store

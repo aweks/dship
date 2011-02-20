@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Shopping Cart" %}{% endblock %}
+
+{% block header %}{% trans "Shopping Cart" %}{% endblock %}
+
+{% block content %}
+    <table cellspacing="0">
+        <tr>
+            <th>{% trans "Product:" %}</th>
+            <th>{% trans "Shipping Address:" %}</th>
+            <th>{% trans "Quantity:" %}</th>
+            <th>{% trans "Price:" %}</th>
+            <th>{% trans "Commission:" %}</th>
+            <th>{% trans "Other cost:" %}</th>
+            <th>{% trans "Total:" %}</th>
+            <th></th>
+        </tr>
+        {% if cartitems %}
+            {% for item in cartitems %}
+                <tr>
+                    <form action="/shop/cart/" method="post">
+                    {% if form.non_field_errors %}
+                        {{ form.non_field_errors }}
+                    {% endif %}
+                    <td>
+                        <a href="/product/{{ item.item.category.id }}/{{ item.item.id }}/">{{ item.item.title }}</a>
+                        {# it is very important to pass item.id below and NOT item.item.id as we need the cart item id and not the product id #}
+                        <input type="hidden" name="item" id="id_item" value="{{ item.id }}"/>
+                    </td>
+                    <td>
+						<li>{{ item.address.addressee }}</li>
+						<li>{{ item.address.address_one }}</li>
+						<li>{{ item.address.address_two }}</li>
+						<li>{{ item.address.city }}</li>
+						<li>{{ item.address.state }}</li>
+						<li>{{ item.address.post_code }}</li>
+						<li>{{ item.address.email }}</li>
+                        <a href="/shop/edit/shippingaddress/{{ item.id }}/">Change</a>
+                    </td>
+                    <td>
+                        {% if form.quantity.errors %}
+                            <div class="error">
+                                {{ form.quantity.errors }}
+                            </div>
+                        {% endif %}
+                        <input type="text" name="quantity" id="id_quantity" value="{{ item.quantity }}" size="4"/> <span class="cart-quantity-remove-note">{% trans "(Set to 0 to remove)" %}</span>
+
+                    </td>
+                    <td>
+                        {% if form.price.errors %}
+                            <div class="error">
+                                {{ form.price.errors }}
+                            </div>
+                        {% endif %}
+                        <input type="text" name="price" id="id_price" value="{{ item.price }}" size="8"/>
+                    </td>
+                    <td>
+                        {% if user.is_authenticated and user.commission %}
+                            {{ user.commission }}
+                        {% else %}
+                            {{ default_commission }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if form.other_cost.errors %}
+                            <div class="error">
+                                {{ form.other_cost.errors }}
+                            </div>
+                        {% endif %}
+                        <input type="text" name="other_cost" id="id_other_cost" value="{{ item.other_cost }}" size="8"/>
+                    </td>
+                    <td>
+                        {% comment %}
+                            TODO
+                            this displays the total price which is product_price
+                            X quantity + other_cost - commission
+
+                            also other_cost + commission can not be more than
+                            product_price
+                        {% endcomment %}
+                        {{ item.total }}
+                    </td>
+                    <td>
+                        {% csrf_token %}
+                        <input type="submit" value="{% trans "Update Item" %}"/>
+                    </td>
+                    </form>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>{% trans "Grand Total:" %}</th>
+            <td>
+                {{ cart.total }}
+            </td>
+            <td>
+                <form action="/shop/cart/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="cart" id="cart_id" value="{{ cart.id }}"/>
+                    <input type="submit" value="{% trans "Checkout" %}"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

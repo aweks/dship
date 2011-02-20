@@ -1,0 +1,25 @@
+/*
+ * cart-header styles the headers on the shopping cart page
+ */
+
+.cart-header
+{
+    text-align: center;
+    font-weight: bold;
+}
+
+.correct-order
+{
+    text-align: right;
+}
+
+.cart-quantity-remove-note
+{
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.footer
+{
+    text-align: center;
+}

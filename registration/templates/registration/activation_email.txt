@@ -1,0 +1,2 @@
+{% load i18n %}{% blocktrans %}Thank you for registering at {{ site }}. An
+administrator will activate your account shortly.{% endblocktrans %}

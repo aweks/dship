@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Registration Complete" %}{% endblock %}
+
+{% block header %}{% trans "Registration Complete" %}{% endblock %}
+
+{% block content %}
+<h3>{% trans "Account Creation" %}</h3>
+<p>{% trans "Thank you for signing up." %}
+{% if verify %}
+{% trans "An activation link has been sent to the email address you supplied, along with instructions for activating your account." %}
+{% endif %}
+</p>
+{% endblock %}

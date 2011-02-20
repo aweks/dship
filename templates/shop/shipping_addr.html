@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Edit This Shipping Address" %}{% endblock %}
+
+{% block header %}{% trans "Edit This Shipping Address" %}{% endblock %}
+
+{% block content %}
+    <div class="span-7">
+        <form action="/shop/edit/shippingaddress/{{ cartitem.id }}/" method="post">
+            <fieldset>
+                <legend>{% trans "Edit Shipping Address:" %}</legend>
+                {% if form.non_field_errors %}
+                    <div class="error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                {% if form.addressee.errors %}
+                    <div class="error">
+                        {{ form.addressee.errors }}
+                    </div>
+                {% endif %}
+                {{form.addressee.label}}:
+                <input type="text" name="addressee" id="id_addressee" value="{{ cartitem.address.addressee }}"/><br/>
+
+                {% if form.address_one.errors %}
+                    <div class="error">
+                        {{ form.address_one.errors }}
+                    </div>
+                {% endif %}
+                {{ form.address_one.label }}:
+                <input type="text" name="address_one" id="id_address_one" value=" {{ cartitem.address.address_one }} "/><br/>
+
+                {% if form.address_two.errors %}
+                    <div class="error">
+                        {{ form.address_two.errors }}
+                    </div>
+                {% endif %}
+                {{ form.address_two.label }}:
+                <input type="text" name="address_two" id="id_address_two" value=" {{ cartitem.address.address_two }} "/><br/>
+
+                {% if form.city.errors %}
+                    <div class="error">
+                        {{ form.city.errors }}
+                    </div>
+                {% endif %}
+                {{ form.city.label }}:
+                <input type="text" name="city" id="id_city" value="{{ cartitem.address.city }}"/><br/>
+
+                {% if form.state.errors %}
+                    <div class="error">
+                        {{ form.state.errors }}
+                    </div>
+                {% endif %}
+                {{ form.state.label }}:
+                <input type="text" name="state" id="id_state" value="{{ cartitem.address.state }}"/><br/>
+
+                {% if form.post_code.errors %}
+                    <div class="error">
+                        {{ form.post_code.errors }}
+                    </div>
+                {% endif %}
+                {{ form.post_code.label }}:
+                <input type="text" name="post_code" id="id_post_code" value="{{ cartitem.address.post_code }}"/><br/>
+
+                {% csrf_token %}
+                <input type="submit" value="{% trans "Submit" %}"/>
+            </fieldset>
+        </form>
+    </div>
+    <div class="span-17 final">
+    </div>
+{% endblock %}
