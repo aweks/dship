@@ -125,8 +125,9 @@ AUTH_PROFILE_MODULE = 'shop.ExtendedProfile'
 
 SEND_BROKEN_LINKS_EMAIL = True
 
+
 # import all project custom settings
-from custom_settings import *
+from local_settings import *
 # import all production specific settings
 # such as real world database settings
 #from production_settings import *
