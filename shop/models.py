@@ -300,6 +300,9 @@ class OrderItem(models.Model):
             blank=True, null=True)
     total = fields.CurrencyField(max_digits=19, decimal_places=2)
 
+    def __unicode__(self):
+        return self.item.title
+
 class ExtendedProfile(models.Model):
     user = models.OneToOneField(User)
     billing = models.ForeignKey(BillingAddress, blank=True, null=True)
