@@ -56,6 +56,7 @@ def product_by_id(request, category_id, product_id):
                                'form': form},
                               context_instance=RequestContext(request))
 
+@login_required
 def download_product_images(request, product_id):
     """Downloads all the photos related to a specified product in a zip
     archive.
