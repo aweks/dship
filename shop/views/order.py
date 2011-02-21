@@ -92,7 +92,14 @@ def order_by_id(request, order_id):
     except Order.DoesNotExist, OrderItem.DoesNotExist:
         raise Http404
 
-    if request.user.id != order.customer.id:
+    try:
+        user = User.objects.get(id__exact=request.user.id)
+    except User.DoesNotExist:
+        raise Http404
+
+    if int(request.user.id) != int(order.customer.id):
+        raise Http404
+    elif not user.is_superuser:
         raise Http404
 
     return render_to_response('order/by_id.html',
@@ -102,12 +109,13 @@ def order_by_id(request, order_id):
 
 @login_required
 def order_tracking(request, user_id):
+
+    if int(user_id) != int(request.user.id):
+        raise Http404
+
     try:
         user = User.objects.get(id__exact=user_id)
     except User.DoesNotExist:
-        raise Http404
-
-    if user.id != int(user_id):
         raise Http404
 
     try:

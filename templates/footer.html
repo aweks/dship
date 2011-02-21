@@ -14,7 +14,10 @@
         {% endif %}
         | <a href="/shop/cart/">Your Cart</a> |
         {% if user.is_authenticated %}
-            <a href="/shop/order/tracking/{{ user.id }}/">Track Your Orders</a> |
+            <a href="/shop/order/tracking/{{ user.id }}/">Track Your Orders</a> |<br/>
+        {% endif %}
+        {% if user.is_superuser %}
+            | <a href="/shop/order/tracking/admin/">Admin Order Tracking</a> |<br/>
         {% endif %}
     </p>
     {% endblock %}

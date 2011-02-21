@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Completed Orders" %}{% endblock %}
+
+{% block header %}{% trans "Completed Orders" %}{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>{% trans "Order ID:" %}</th>
+        <th>{% trans "Order Total:" %}</th>
+        <th>{% trans "Order Status:" %}</th>
+    </tr>
+    {% for order in orders %}
+        <tr>
+            <td>
+                <a href="/shop/order/{{ order.id }}/">{{ order.id }}</a>
+            </td>
+            <td>
+                {{ order.total }}
+            </td>
+            <td>
+                {{ order.get_status_display }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
