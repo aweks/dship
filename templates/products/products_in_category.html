@@ -2,8 +2,12 @@
 
 {% load i18n %}
 
+{% block title %}
+    Products in {{ category.title }}
+{% endblock %}
+
 {% block header %}
-{{ category.title }}
+    Products in {{ category.title }}
 {% endblock %}
 
 {% block content %}
@@ -15,17 +19,23 @@
 		            <img src="{{ image.display_image.url }}"/>
 		        {% endfor %}
 			{# {% endif %} #}
-            {% if user.is_authenticated %}
-                {% if user.commission %}
-                    <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ user.commission }}<br/>
-                {% else %}
-                    <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ default_commission }}<br/>
-                {% endif %}
+            {% if user.is_authenticated and user.get_profile.commission_rate %}
+                <strong>{% trans "Price" %}:</strong> {{ product.price }} |<strong>{% trans "Commission" %}:</strong> {{ user.get_profile.commission_rate }}<br/>
+            {% else %}
+                <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ default_commission }}<br/>
+            {% endif %}
             {% endif %}
             {% if product.stock > 0 %}
                 <strong>In Stock</strong><br/>
             {% endif %}
             {# {{ product.description|linebreaksbr }} #}
+            {% if product_images %}
+                {% for image in product_images %}
+                    {% if image.product.id == product.id %}
+                        <img src="{{ image.thumbnail_image.url }}"/><br/>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </p>
     {% endfor %}
 {% endblock %}
