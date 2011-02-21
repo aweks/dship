@@ -58,8 +58,8 @@
                         <input type="text" name="price" id="id_price" value="{{ item.price }}" size="8"/>
                     </td>
                     <td>
-                        {% if user.is_authenticated and user.commission %}
-                            {{ user.commission }} 
+                        {% if user.is_authenticated and user.get_profile.commission_rate %}
+                            {{ user.get_profile.commission_rate }}
                         {% else %}
                             {{ default_commission }}
                         {% endif %}

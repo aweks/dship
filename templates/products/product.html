@@ -8,17 +8,15 @@
 
 {% block content %}
 <p>
-    {% if user.is_authenticated %}
-        {% if user.commission %}
-            <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ user.commission }}<br/>
-        {% else %}
-            <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ default_commission }}<br/>
-        {% endif %}
+    {% if user.is_authenticated and user.get_profile.commission_rate %}
+        <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ user.get_profile.commission_rate }}<br/>
+    {% else %}
+        <strong>{% trans "Price" %}:</strong> {{ product.price }} | <strong>{% trans "Commission" %}:</strong> {{ default_commission }}<br/>
     {% endif %}
     {% if product.stock > 0 %}
         <strong>In Stock</strong><br/>
     {% endif %}
-    
+
     {% if images %}
 	<div id="main_image">
         {% for image in images|slice:":1" %}
